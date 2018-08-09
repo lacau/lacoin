@@ -1,5 +1,7 @@
-package com.lacoin.entity;
+package com.lacoin.model.entity;
 
+import com.lacoin.model.converter.ExchangeCodeConverter;
+import com.lacoin.model.enumeration.ExchangeCode;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;

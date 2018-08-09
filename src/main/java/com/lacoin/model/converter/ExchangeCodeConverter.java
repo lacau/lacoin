@@ -1,5 +1,6 @@
-package com.lacoin.entity;
+package com.lacoin.model.converter;
 
+import com.lacoin.model.enumeration.ExchangeCode;
 import javax.persistence.AttributeConverter;
 
 public class ExchangeCodeConverter implements AttributeConverter<ExchangeCode, String> {

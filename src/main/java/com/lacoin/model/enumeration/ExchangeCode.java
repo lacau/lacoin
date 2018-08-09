@@ -1,4 +1,4 @@
-package com.lacoin.entity;
+package com.lacoin.model.enumeration;
 
 import java.util.Arrays;
 
@@ -16,7 +16,7 @@ public enum ExchangeCode {
         return code;
     }
 
-    static final ExchangeCode fromCode(final String code) {
+    public static final ExchangeCode fromCode(final String code) {
         return Arrays.stream(values())
             .filter(ec -> ec.code.equalsIgnoreCase(code))
             .findFirst()
