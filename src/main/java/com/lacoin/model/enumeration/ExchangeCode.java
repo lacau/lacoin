@@ -4,7 +4,8 @@ import java.util.Arrays;
 
 public enum ExchangeCode {
 
-    MERCADO_BITCOIN("MERC");
+    MERCADO_BITCOIN("MERC"),
+    FOXBIT("FOXB");
 
     String code;
 
