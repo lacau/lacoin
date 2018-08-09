@@ -1,7 +1,7 @@
 CREATE TABLE exchange (
   id int8 NOT NULL,
   name VARCHAR(255) NOT NULL,
-  code SMALLINT NOT NULL,
+  code VARCHAR(4) NOT NULL,
   PRIMARY KEY (id)
 )
 WITH (OIDS=FALSE);

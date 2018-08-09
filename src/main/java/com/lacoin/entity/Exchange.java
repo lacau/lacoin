@@ -1,6 +1,7 @@
 package com.lacoin.entity;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,6 +27,7 @@ public class Exchange {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Convert(converter = ExchangeCodeConverter.class)
     @Column(name = "code", nullable = false)
-    private short code;
+    private ExchangeCode code;
 }
