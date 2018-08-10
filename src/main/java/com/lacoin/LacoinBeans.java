@@ -1,6 +1,7 @@
 package com.lacoin;
 
 import com.lacoin.model.enumeration.ExchangeCode;
+import com.lacoin.service.BitcoinTradeService;
 import com.lacoin.service.BlinkTradeService;
 import com.lacoin.service.ExchangeServiceInterface;
 import com.lacoin.service.FoxbitService;
@@ -28,6 +29,9 @@ public class LacoinBeans {
     @Autowired
     private OmniTradeService omniTradeService;
 
+    @Autowired
+    private BitcoinTradeService bitcoinTradeService;
+
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
@@ -40,6 +44,7 @@ public class LacoinBeans {
         map.put(ExchangeCode.FOXBIT, foxbitService);
         map.put(ExchangeCode.BLINK_TRADE, blinkTradeService);
         map.put(ExchangeCode.OMNI_TRADE, omniTradeService);
+        map.put(ExchangeCode.BITCOIN_TRADE, bitcoinTradeService);
 
         return map;
     }
