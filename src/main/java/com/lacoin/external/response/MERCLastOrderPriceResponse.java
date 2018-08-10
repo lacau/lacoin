@@ -7,6 +7,28 @@ import lombok.Data;
 @Data
 public class MERCLastOrderPriceResponse {
 
-    @JsonProperty("last")
-    private BigDecimal last;
+    @JsonProperty("ticker")
+    private Ticker ticker;
+
+    @Data
+    public class Ticker {
+
+        @JsonProperty("high")
+        private BigDecimal high;
+
+        @JsonProperty("low")
+        private BigDecimal low;
+
+        @JsonProperty("vol")
+        private BigDecimal vol;
+
+        @JsonProperty("last")
+        private BigDecimal last;
+
+        @JsonProperty("buy")
+        private BigDecimal buy;
+
+        @JsonProperty("sell")
+        private BigDecimal sell;
+    }
 }

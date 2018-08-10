@@ -11,10 +11,10 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 public class ExchangeServiceFactory {
 
     @Autowired
-    private Map<ExchangeCode, ExchangeServiceInterface> exchangeServiceFactory;
+    private Map<ExchangeCode, ExchangeServiceInterface> exchangeServiceMap;
 
     public ExchangeServiceInterface getService(final ExchangeCode exchangeCode) {
-        final ExchangeServiceInterface service = exchangeServiceFactory.get(exchangeCode);
+        final ExchangeServiceInterface service = exchangeServiceMap.get(exchangeCode);
         if (service == null) {
             throw new NotImplementedException();
         }

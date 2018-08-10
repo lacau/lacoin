@@ -25,7 +25,7 @@ public class LacoinBeans {
         return new RestTemplate();
     }
 
-    @Bean("exchangeServiceFactory")
+    @Bean("exchangeServiceMap")
     public Map<ExchangeCode, ExchangeServiceInterface> exchangeServiceMap() {
         final Map<ExchangeCode, ExchangeServiceInterface> map = new HashMap<>();
         map.put(ExchangeCode.MERCADO_BITCOIN, mercadoBitcoinService);

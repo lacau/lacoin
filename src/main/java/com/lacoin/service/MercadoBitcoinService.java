@@ -14,7 +14,7 @@ public class MercadoBitcoinService implements ExchangeServiceInterface {
 
     private static final String OPERATION_TICKER = "ticker";
 
-    @Value("{url.mercado.bitcoin}")
+    @Value("${url.mercado.bitcoin}")
     private String url;
 
     @Autowired
@@ -26,7 +26,7 @@ public class MercadoBitcoinService implements ExchangeServiceInterface {
 
         try {
             final ResponseEntity<MERCLastOrderPriceResponse> response = restTemplate.getForEntity(reqUrl, MERCLastOrderPriceResponse.class);
-            return response.getBody().getLast();
+            return response.getBody().getTicker().getLast();
         } catch (Exception e) {
             return null;
         }
