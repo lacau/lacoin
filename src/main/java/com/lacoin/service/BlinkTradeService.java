@@ -1,6 +1,6 @@
 package com.lacoin.service;
 
-import com.lacoin.external.response.MERCTickerResponse;
+import com.lacoin.external.response.BKTRTickerResponse;
 import com.lacoin.model.enumeration.CurrencyCode;
 import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,13 +8,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
-public class MercadoBitcoinService implements ExchangeServiceInterface {
+public class BlinkTradeService implements ExchangeServiceInterface {
 
     private static final String OPERATION_TICKER = "ticker";
 
-    @Value("${url.mercado.bitcoin}")
+    @Value("${url.blink.trade}")
     private String url;
 
     @Autowired
@@ -22,11 +23,12 @@ public class MercadoBitcoinService implements ExchangeServiceInterface {
 
     @Override
     public BigDecimal getLastOrderPrice() {
-        final String reqUrl = String.format(url, CurrencyCode.BTC, OPERATION_TICKER);
+        final String reqUrl = String.format(url, CurrencyCode.BRL, OPERATION_TICKER);
+        final UriComponentsBuilder urlBuilder = UriComponentsBuilder.fromUriString(reqUrl).queryParam("crypto_currency", CurrencyCode.BTC);
 
         try {
-            final ResponseEntity<MERCTickerResponse> response = restTemplate.getForEntity(reqUrl, MERCTickerResponse.class);
-            return response.getBody().getTicker().getLast();
+            final ResponseEntity<BKTRTickerResponse> response = restTemplate.getForEntity(urlBuilder.toUriString(), BKTRTickerResponse.class);
+            return response.getBody().getLast();
         } catch (Exception e) {
             return null;
         }

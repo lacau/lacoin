@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import lombok.Data;
 
 @Data
-public class MERCLastOrderPriceResponse {
+public class MERCTickerResponse {
 
     @JsonProperty("ticker")
     private Ticker ticker;
