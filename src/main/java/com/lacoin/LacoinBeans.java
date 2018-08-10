@@ -5,6 +5,7 @@ import com.lacoin.service.BlinkTradeService;
 import com.lacoin.service.ExchangeServiceInterface;
 import com.lacoin.service.FoxbitService;
 import com.lacoin.service.MercadoBitcoinService;
+import com.lacoin.service.OmniTradeService;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class LacoinBeans {
     @Autowired
     private BlinkTradeService blinkTradeService;
 
+    @Autowired
+    private OmniTradeService omniTradeService;
+
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
@@ -35,6 +39,7 @@ public class LacoinBeans {
         map.put(ExchangeCode.MERCADO_BITCOIN, mercadoBitcoinService);
         map.put(ExchangeCode.FOXBIT, foxbitService);
         map.put(ExchangeCode.BLINK_TRADE, blinkTradeService);
+        map.put(ExchangeCode.OMNI_TRADE, omniTradeService);
 
         return map;
     }
