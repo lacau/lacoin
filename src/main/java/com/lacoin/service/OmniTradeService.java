@@ -16,8 +16,6 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class OmniTradeService implements ExchangeServiceInterface {
 
-    private static final String OPERATION_TICKER = "ticker";
-
     @Value("${url.omni.trade.ticker}")
     private String urlTicker;
 

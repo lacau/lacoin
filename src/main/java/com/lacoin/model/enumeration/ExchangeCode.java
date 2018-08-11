@@ -10,7 +10,7 @@ public enum ExchangeCode {
     OMNI_TRADE("ONTR"),
     BITCOIN_TRADE("BTTR");
 
-    String code;
+    final String code;
 
     ExchangeCode(final String code) {
         this.code = code;
@@ -20,7 +20,7 @@ public enum ExchangeCode {
         return code;
     }
 
-    public static final ExchangeCode fromCode(final String code) {
+    public static ExchangeCode fromCode(final String code) {
         return Arrays.stream(values())
             .filter(ec -> ec.code.equalsIgnoreCase(code))
             .findFirst()
