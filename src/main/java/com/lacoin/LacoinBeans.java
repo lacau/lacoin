@@ -41,7 +41,7 @@ public class LacoinBeans {
     public Map<ExchangeCode, ExchangeServiceInterface> exchangeServiceMap() {
         final Map<ExchangeCode, ExchangeServiceInterface> map = new HashMap<>();
         map.put(ExchangeCode.MERCADO_BITCOIN, mercadoBitcoinService);
-        map.put(ExchangeCode.FOXBIT, foxbitService);
+        //map.put(ExchangeCode.FOXBIT, foxbitService);
         map.put(ExchangeCode.BLINK_TRADE, blinkTradeService);
         map.put(ExchangeCode.OMNI_TRADE, omniTradeService);
         map.put(ExchangeCode.BITCOIN_TRADE, bitcoinTradeService);

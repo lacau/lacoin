@@ -5,7 +5,7 @@ import java.util.Arrays;
 public enum ExchangeCode {
 
     MERCADO_BITCOIN("MERC"),
-    FOXBIT("FOXB"),
+    //FOXBIT("FOXB"),
     BLINK_TRADE("BKTR"),
     OMNI_TRADE("ONTR"),
     BITCOIN_TRADE("BTTR");
