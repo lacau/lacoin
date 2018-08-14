@@ -1,8 +1,9 @@
 package com.lacoin.service;
 
+import com.lacoin.controller.vo.QuotationVO;
 import com.lacoin.external.response.MERCTickerResponse;
 import com.lacoin.model.enumeration.CurrencyCode;
-import java.math.BigDecimal;
+import com.lacoin.model.enumeration.ExchangeCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +21,25 @@ public class MercadoBitcoinService implements ExchangeServiceInterface {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Override
-    public BigDecimal getLastOrderPrice() {
+    public MERCTickerResponse getTicker() {
         final String reqUrl = String.format(url, CurrencyCode.BTC, OPERATION_TICKER);
 
         try {
             final ResponseEntity<MERCTickerResponse> response = restTemplate.getForEntity(reqUrl, MERCTickerResponse.class);
-            return response.getBody().getTicker().getLast();
+            return response.getBody();
         } catch (Exception e) {
             return null;
         }
+    }
+
+    @Override
+    public QuotationVO getQuotation() {
+        final MERCTickerResponse ticker = getTicker();
+
+        return QuotationVO.builder()
+            .exchange(ExchangeCode.MERCADO_BITCOIN)
+            .quotation(ticker.getTicker().getLast())
+            .volume(ticker.getTicker().getVol())
+            .build();
     }
 }

@@ -1,8 +1,9 @@
 package com.lacoin.service;
 
+import com.lacoin.controller.vo.QuotationVO;
 import com.lacoin.external.response.BTTRTickerResponse;
 import com.lacoin.model.enumeration.CurrencyCode;
-import java.math.BigDecimal;
+import com.lacoin.model.enumeration.ExchangeCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +21,25 @@ public class BitcoinTradeService implements ExchangeServiceInterface {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Override
-    public BigDecimal getLastOrderPrice() {
+    public BTTRTickerResponse getTicker() {
         final String reqUrl = String.format(url, CurrencyCode.BTC, OPERATION_TICKER);
 
         try {
             final ResponseEntity<BTTRTickerResponse> response = restTemplate.getForEntity(reqUrl, BTTRTickerResponse.class);
-            return response.getBody().getData().getLast();
+            return response.getBody();
         } catch (Exception e) {
             return null;
         }
+    }
+
+    @Override
+    public QuotationVO getQuotation() {
+        final BTTRTickerResponse ticker = getTicker();
+
+        return QuotationVO.builder()
+            .exchange(ExchangeCode.BITCOIN_TRADE)
+            .quotation(ticker.getData().getLast())
+            .volume(ticker.getData().getVolume())
+            .build();
     }
 }

@@ -1,8 +1,8 @@
 package com.lacoin.service;
 
-import java.math.BigDecimal;
+import com.lacoin.controller.vo.QuotationVO;
 
 public interface ExchangeServiceInterface {
 
-    BigDecimal getLastOrderPrice();
+    QuotationVO getQuotation();
 }

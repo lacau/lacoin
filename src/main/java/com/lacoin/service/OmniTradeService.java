@@ -1,9 +1,10 @@
 package com.lacoin.service;
 
 import com.lacoin.LacoinContants;
+import com.lacoin.controller.vo.QuotationVO;
 import com.lacoin.external.response.ONTRTickerResponse;
 import com.lacoin.model.enumeration.CurrencyCode;
-import java.math.BigDecimal;
+import com.lacoin.model.enumeration.ExchangeCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -22,8 +23,7 @@ public class OmniTradeService implements ExchangeServiceInterface {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Override
-    public BigDecimal getLastOrderPrice() {
+    public ONTRTickerResponse getTicker() {
         final String reqUrl = String.format(urlTicker, CurrencyCode.BTC.toString().toLowerCase() + CurrencyCode.BRL.toString().toLowerCase());
 
         final HttpHeaders headers = new HttpHeaders();
@@ -32,9 +32,20 @@ public class OmniTradeService implements ExchangeServiceInterface {
 
         try {
             final ResponseEntity<ONTRTickerResponse> response = restTemplate.exchange(reqUrl, HttpMethod.GET, entity, ONTRTickerResponse.class);
-            return response.getBody().getTicker().getLast();
+            return response.getBody();
         } catch (Exception e) {
             return null;
         }
+    }
+
+    @Override
+    public QuotationVO getQuotation() {
+        final ONTRTickerResponse ticker = getTicker();
+
+        return QuotationVO.builder()
+            .exchange(ExchangeCode.OMNI_TRADE)
+            .quotation(ticker.getTicker().getLast())
+            .volume(ticker.getTicker().getVol())
+            .build();
     }
 }
