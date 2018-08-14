@@ -4,6 +4,8 @@ import com.lacoin.factory.ExchangeServiceFactory;
 import com.lacoin.model.entity.Quotation;
 import com.lacoin.model.enumeration.ExchangeCode;
 import com.lacoin.model.repository.QuotationRepository;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +39,10 @@ public class QuotationService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void saveQuotations(final List<Quotation> quotations) {
         quotationRepository.saveAll(quotations);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void purgeQuotations() {
+        quotationRepository.deleteByDateBefore(Instant.now().minus(1, ChronoUnit.HOURS));
     }
 }

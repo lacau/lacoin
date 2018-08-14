@@ -21,4 +21,9 @@ public class Schedulers {
             quotationService.saveQuotations(quotations);
         }
     }
+
+    @Scheduled(cron = "0 0 0/2 1/1 * ?")
+    public void purgeQuotations() {
+        quotationService.purgeQuotations();
+    }
 }
