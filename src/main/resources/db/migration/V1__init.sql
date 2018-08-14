@@ -22,3 +22,8 @@ WITH (OIDS=FALSE);
 
 CREATE SEQUENCE IF NOT EXISTS seq_quotation;
 ALTER SEQUENCE seq_quotation INCREMENT BY 50;
+
+INSERT INTO exchange(id, name, code) VALUES(nextval('seq_exchange'), 'Mercado bitcoin', 'MERC');
+INSERT INTO exchange(id, name, code) VALUES(nextval('seq_exchange'), 'Blink trade', 'BKTR');
+INSERT INTO exchange(id, name, code) VALUES(nextval('seq_exchange'), 'Omni trade', 'ONTR');
+INSERT INTO exchange(id, name, code) VALUES(nextval('seq_exchange'), 'Bitcoin trade', 'BTTR');

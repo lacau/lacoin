@@ -35,7 +35,8 @@ public class Quotation {
     private BigDecimal volume;
 
     @Column(name = "date", nullable = false)
-    private Instant date;
+    @Builder.Default
+    private Instant date = Instant.now();
 
     @ManyToOne
     @JoinColumn(name = "fk_exchange", nullable = false)

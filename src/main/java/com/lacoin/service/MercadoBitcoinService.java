@@ -1,9 +1,11 @@
 package com.lacoin.service;
 
-import com.lacoin.controller.vo.QuotationVO;
 import com.lacoin.external.response.MERCTickerResponse;
+import com.lacoin.model.entity.Exchange;
+import com.lacoin.model.entity.Quotation;
 import com.lacoin.model.enumeration.CurrencyCode;
 import com.lacoin.model.enumeration.ExchangeCode;
+import com.lacoin.model.repository.ExchangeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,9 @@ public class MercadoBitcoinService implements ExchangeServiceInterface {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private ExchangeRepository exchangeRepository;
+
     public MERCTickerResponse getTicker() {
         final String reqUrl = String.format(url, CurrencyCode.BTC, OPERATION_TICKER);
 
@@ -33,12 +38,17 @@ public class MercadoBitcoinService implements ExchangeServiceInterface {
     }
 
     @Override
-    public QuotationVO getQuotation() {
+    public Quotation getQuotation() {
         final MERCTickerResponse ticker = getTicker();
+        if (ticker == null) {
+            return null;
+        }
 
-        return QuotationVO.builder()
-            .exchange(ExchangeCode.MERCADO_BITCOIN)
-            .quotation(ticker.getTicker().getLast())
+        final Exchange exchange = exchangeRepository.findOneByCode(ExchangeCode.MERCADO_BITCOIN);
+
+        return Quotation.builder()
+            .exchange(exchange)
+            .amount(ticker.getTicker().getLast())
             .volume(ticker.getTicker().getVol())
             .build();
     }

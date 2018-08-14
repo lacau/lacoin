@@ -1,10 +1,12 @@
 package com.lacoin.service;
 
 import com.lacoin.LacoinContants;
-import com.lacoin.controller.vo.QuotationVO;
 import com.lacoin.external.response.ONTRTickerResponse;
+import com.lacoin.model.entity.Exchange;
+import com.lacoin.model.entity.Quotation;
 import com.lacoin.model.enumeration.CurrencyCode;
 import com.lacoin.model.enumeration.ExchangeCode;
+import com.lacoin.model.repository.ExchangeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -23,6 +25,9 @@ public class OmniTradeService implements ExchangeServiceInterface {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private ExchangeRepository exchangeRepository;
+
     public ONTRTickerResponse getTicker() {
         final String reqUrl = String.format(urlTicker, CurrencyCode.BTC.toString().toLowerCase() + CurrencyCode.BRL.toString().toLowerCase());
 
@@ -39,12 +44,17 @@ public class OmniTradeService implements ExchangeServiceInterface {
     }
 
     @Override
-    public QuotationVO getQuotation() {
+    public Quotation getQuotation() {
         final ONTRTickerResponse ticker = getTicker();
+        if (ticker == null) {
+            return null;
+        }
 
-        return QuotationVO.builder()
-            .exchange(ExchangeCode.OMNI_TRADE)
-            .quotation(ticker.getTicker().getLast())
+        final Exchange exchange = exchangeRepository.findOneByCode(ExchangeCode.OMNI_TRADE);
+
+        return Quotation.builder()
+            .exchange(exchange)
+            .amount(ticker.getTicker().getLast())
             .volume(ticker.getTicker().getVol())
             .build();
     }

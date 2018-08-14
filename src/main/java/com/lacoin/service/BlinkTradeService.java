@@ -1,9 +1,11 @@
 package com.lacoin.service;
 
-import com.lacoin.controller.vo.QuotationVO;
 import com.lacoin.external.response.BKTRTickerResponse;
+import com.lacoin.model.entity.Exchange;
+import com.lacoin.model.entity.Quotation;
 import com.lacoin.model.enumeration.CurrencyCode;
 import com.lacoin.model.enumeration.ExchangeCode;
+import com.lacoin.model.repository.ExchangeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,9 @@ public class BlinkTradeService implements ExchangeServiceInterface {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private ExchangeRepository exchangeRepository;
+
     public BKTRTickerResponse getTicker() {
         final String reqUrl = String.format(url, CurrencyCode.BRL, OPERATION_TICKER);
         final UriComponentsBuilder urlBuilder = UriComponentsBuilder.fromUriString(reqUrl).queryParam("crypto_currency", CurrencyCode.BTC);
@@ -35,12 +40,17 @@ public class BlinkTradeService implements ExchangeServiceInterface {
     }
 
     @Override
-    public QuotationVO getQuotation() {
+    public Quotation getQuotation() {
         final BKTRTickerResponse ticker = getTicker();
+        if (ticker == null) {
+            return null;
+        }
 
-        return QuotationVO.builder()
-            .exchange(ExchangeCode.BLINK_TRADE)
-            .quotation(ticker.getLast())
+        final Exchange exchange = exchangeRepository.findOneByCode(ExchangeCode.BLINK_TRADE);
+
+        return Quotation.builder()
+            .exchange(exchange)
+            .amount(ticker.getLast())
             .volume(ticker.getVol())
             .build();
     }
