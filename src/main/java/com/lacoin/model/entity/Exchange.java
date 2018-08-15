@@ -2,12 +2,15 @@ package com.lacoin.model.entity;
 
 import com.lacoin.model.converter.ExchangeCodeConverter;
 import com.lacoin.model.enumeration.ExchangeCode;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,4 +35,7 @@ public class Exchange {
     @Convert(converter = ExchangeCodeConverter.class)
     @Column(name = "code", nullable = false)
     private ExchangeCode code;
+
+    @OneToMany(mappedBy = "exchange", fetch = FetchType.EAGER)
+    private List<ExchangeFee> exchangeFees;
 }

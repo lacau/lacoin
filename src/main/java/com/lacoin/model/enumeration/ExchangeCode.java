@@ -6,7 +6,7 @@ public enum ExchangeCode {
 
     MERCADO_BITCOIN("MERC"),
     //FOXBIT("FOXB"),
-    BLINK_TRADE("BKTR"),
+    BLINK_TRADE("BKTR"), // Bitcambio
     OMNI_TRADE("ONTR"),
     BITCOIN_TRADE("BTTR");
 

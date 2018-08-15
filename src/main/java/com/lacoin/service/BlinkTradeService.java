@@ -6,6 +6,7 @@ import com.lacoin.model.entity.Quotation;
 import com.lacoin.model.enumeration.CurrencyCode;
 import com.lacoin.model.enumeration.ExchangeCode;
 import com.lacoin.model.repository.ExchangeRepository;
+import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -42,16 +43,12 @@ public class BlinkTradeService implements ExchangeServiceInterface {
     @Override
     public Quotation getQuotation() {
         final BKTRTickerResponse ticker = getTicker();
-        if (ticker == null) {
-            return null;
-        }
-
         final Exchange exchange = exchangeRepository.findOneByCode(ExchangeCode.BLINK_TRADE);
 
         return Quotation.builder()
             .exchange(exchange)
-            .amount(ticker.getLast())
-            .volume(ticker.getVol())
+            .amount(ticker == null ? BigDecimal.ZERO : ticker.getLast())
+            .volume(ticker == null ? BigDecimal.ZERO : ticker.getVol())
             .build();
     }
 }

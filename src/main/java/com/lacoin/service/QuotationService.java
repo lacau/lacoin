@@ -8,6 +8,8 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -15,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class QuotationService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(QuotationService.class);
 
     @Autowired
     private ExchangeServiceFactory exchangeServiceFactory;
@@ -25,12 +29,9 @@ public class QuotationService {
     public List<Quotation> fetchQuotations() {
         final List<Quotation> quotations = new ArrayList<>();
         for (ExchangeCode exchange : ExchangeCode.values()) {
+            LOGGER.info("method=fetchQuotations, exchange={}, msg=Fetching quotation", exchange);
             final ExchangeServiceInterface service = exchangeServiceFactory.getService(exchange);
-            final Quotation quotation = service.getQuotation();
-
-            if (quotation != null) {
-                quotations.add(quotation);
-            }
+            quotations.add(service.getQuotation());
         }
 
         return quotations;

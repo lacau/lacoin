@@ -31,6 +31,8 @@ public class Schedulers {
 
     @Scheduled(cron = "0 0 0/2 1/1 * ?")
     public void purgeQuotations() {
+        LOGGER.info("method=purgeQuotations, msg=Start quotations purge job");
         quotationService.purgeQuotations();
+        LOGGER.info("method=purgeQuotations, msg=Finish quotations purge job");
     }
 }

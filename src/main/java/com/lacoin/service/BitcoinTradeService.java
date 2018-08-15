@@ -6,6 +6,7 @@ import com.lacoin.model.entity.Quotation;
 import com.lacoin.model.enumeration.CurrencyCode;
 import com.lacoin.model.enumeration.ExchangeCode;
 import com.lacoin.model.repository.ExchangeRepository;
+import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -40,16 +41,12 @@ public class BitcoinTradeService implements ExchangeServiceInterface {
     @Override
     public Quotation getQuotation() {
         final BTTRTickerResponse ticker = getTicker();
-        if (ticker == null) {
-            return null;
-        }
-
         final Exchange exchange = exchangeRepository.findOneByCode(ExchangeCode.BITCOIN_TRADE);
 
         return Quotation.builder()
             .exchange(exchange)
-            .amount(ticker.getData().getLast())
-            .volume(ticker.getData().getVolume())
+            .amount(ticker == null ? BigDecimal.ZERO : ticker.getData().getLast())
+            .volume(ticker == null ? BigDecimal.ZERO : ticker.getData().getVolume())
             .build();
     }
 }
