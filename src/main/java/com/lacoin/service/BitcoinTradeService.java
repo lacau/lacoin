@@ -7,6 +7,8 @@ import com.lacoin.model.enumeration.CurrencyCode;
 import com.lacoin.model.enumeration.ExchangeCode;
 import com.lacoin.model.repository.ExchangeRepository;
 import java.math.BigDecimal;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,8 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class BitcoinTradeService implements ExchangeServiceInterface {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(BitcoinTradeService.class);
 
     private static final String OPERATION_TICKER = "ticker";
 
@@ -34,6 +38,7 @@ public class BitcoinTradeService implements ExchangeServiceInterface {
             final ResponseEntity<BTTRTickerResponse> response = restTemplate.getForEntity(reqUrl, BTTRTickerResponse.class);
             return response.getBody();
         } catch (Exception e) {
+            LOGGER.error("method=getTicker, exchange={}, msg=Error on get ticker from exchange", ExchangeCode.BITCOIN_TRADE);
             return null;
         }
     }

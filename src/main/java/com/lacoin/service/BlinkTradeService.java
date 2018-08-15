@@ -7,6 +7,8 @@ import com.lacoin.model.enumeration.CurrencyCode;
 import com.lacoin.model.enumeration.ExchangeCode;
 import com.lacoin.model.repository.ExchangeRepository;
 import java.math.BigDecimal;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 public class BlinkTradeService implements ExchangeServiceInterface {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(BlinkTradeService.class);
 
     private static final String OPERATION_TICKER = "ticker";
 
@@ -36,6 +40,7 @@ public class BlinkTradeService implements ExchangeServiceInterface {
             final ResponseEntity<BKTRTickerResponse> response = restTemplate.getForEntity(urlBuilder.toUriString(), BKTRTickerResponse.class);
             return response.getBody();
         } catch (Exception e) {
+            LOGGER.error("method=getTicker, exchange={}, msg=Error on get ticker from exchange", ExchangeCode.BLINK_TRADE);
             return null;
         }
     }
